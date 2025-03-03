@@ -4,12 +4,12 @@ import json
 import logging
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 class YouTubeGetter:
     __channel_ids = set()
     __channels = []
-    __api_key = 'AIzaSyBjAu0EHao3xG55zEv8Q6sY5ybFX7D0dSQ'
+    __api_key = 'AIzaSyB0KFVbU7H6l-7sD3nlriOfyUkdns-L-uM'
     __country_codes = ['RU', 'AZ', 'AM', 'BY', 'KZ', 'MD', 'UA', 'LT', 'GE', 'LV', 'EE'] # можно добавить не-снг страны, дальше видео проверяется на русский язык
     __sng_country_codes = ['RU', 'AZ', 'AM', 'BY', 'KZ', 'MD', 'UA', 'LT', 'GE', 'LV', 'EE']
     __retrieved = {}
