@@ -50,7 +50,7 @@ class RutubeGetter:
         logger.info('Parsing main pages')
         driver = webdriver.Chrome(options=self.options)
         driver.implicitly_wait(5)
-        
+        count = 1
         for i in range(self.page_from, self.page_to + 1):
             try:
                 driver.get(self.url_main_page + str(i) + '/')
@@ -63,10 +63,11 @@ class RutubeGetter:
                     self.videos_links.append(video.get('video_url'))
                     self.channels_ids.add(video.get('author').get('id'))
                     self.videos_list.append(video)
-                logger.info(f'Progress: {i / (self.page_to-self.page_from+1) * 100:.2f}%')
+                logger.info(f'Progress: {count / (self.page_to-self.page_from+1) * 100:.2f}%')
+                count+=1
             except Exception as e:
                 logger.error("Error parsing page %d: %s", i, e)
-                break
+                
         driver.quit()
         logger.info('Main pages parsed')
     
