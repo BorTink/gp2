@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 class YouTubeGetter:
     __channel_ids = set()
     __channels = []
-    __api_key = 'AIzaSyB0KFVbU7H6l-7sD3nlriOfyUkdns-L-uM'
+    __api_key = 'AIzaSyBksrbDNsbrE9SiWoWxNGraGD4EQ78d82I'
     __country_codes = ['RU', 'AZ', 'AM', 'BY', 'KZ', 'MD', 'UA', 'LT', 'GE', 'LV', 'EE'] # можно добавить не-снг страны, дальше видео проверяется на русский язык
     __sng_country_codes = ['RU', 'AZ', 'AM', 'BY', 'KZ', 'MD', 'UA', 'LT', 'GE', 'LV', 'EE']
     __retrieved = {}
