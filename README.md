@@ -17,10 +17,10 @@
 - `ThreadPoolExecutor`
 - `os`
 - `importlib`
-- 'matplotlib'
-- 'plotly'
-- 'seaborn'
-- 'numpy'
+- 'matplotlib`
+- 'plotly`
+- 'seaborn`
+- 'numpy`
 
 ## Структура данных
 
