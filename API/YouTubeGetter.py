@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 class YouTubeGetter:
     __channel_ids = set()
     __channels = []
-    __api_key = 'AIzaSyBksrbDNsbrE9SiWoWxNGraGD4EQ78d82I'
+    __api_key = 'AIzaSyDquZjLb0XNV7Ya3o_jgG4dQxOVbiXXNB8'
     __country_codes = ['RU', 'AZ', 'AM', 'BY', 'KZ', 'MD', 'UA', 'LT', 'GE', 'LV', 'EE'] # можно добавить не-снг страны, дальше видео проверяется на русский язык
     __sng_country_codes = ['RU', 'AZ', 'AM', 'BY', 'KZ', 'MD', 'UA', 'LT', 'GE', 'LV', 'EE']
     __retrieved = {}
@@ -52,9 +52,10 @@ class YouTubeGetter:
         scope = 'https://youtube.googleapis.com/youtube/v3/commentThreads?'
         part = 'part=snippet'
         video_id = f'videoId={vid}'
+        max_results = 'maxResults=10'
         api_key = f'key={self.__api_key}'
 
-        return scope + '&'.join([part, video_id, api_key])
+        return scope + '&'.join([part, video_id, max_results, api_key])
 
     def __get_curl_playlists(self, chid):
         scope = 'https://youtube.googleapis.com/youtube/v3/playlists?'
@@ -65,8 +66,10 @@ class YouTubeGetter:
 
         return scope + '&'.join([part, channel_id, max_results, api_key])
 
-    def __init__(self):
-        for cc in self.__country_codes:
+    def __init__(self, partition):
+        cur_country_codes = self.__country_codes[(partition-1)*2:partition*2]
+
+        for cc in cur_country_codes:
             self.__categories[cc] = []
             cur_curl = self.__get_curl_categories(cc)
             r = requests.get(cur_curl)
@@ -75,9 +78,9 @@ class YouTubeGetter:
             cur_categories = [item['id'] for item in j['items']]
 
             self.__retrieved[cc] = []
-            pt = None
-            logger.info(f'progress: {round(100 * (self.__country_codes.index(cc) + 1) / len(self.__country_codes))}%')
+            logger.info(f'p{partition}, progress: {round(100 * (cur_country_codes.index(cc) + 1) / len(cur_country_codes))}%')
             for ca in cur_categories:
+                pt = None
                 for i in range(4):
                     try:
                         cur_curl = self.__get_curl(cc, pt, ca)
@@ -95,7 +98,8 @@ class YouTubeGetter:
                                 self.__comment_threads[vid] = comment_j['items']
                         self.__retrieved[cc].append(cur_items)
                         pt = j['nextPageToken']
-                    except:
+                    except Exception as e:
+                        logger.error(str(e))
                         break
 
         cnt = 1
